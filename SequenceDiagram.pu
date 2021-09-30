@@ -1,4 +1,32 @@
 @startuml シーケンス図
-User -> SignUpAPI: メールアドレス・パスワード
-SignUpAPI -> User: 登録されたユーザー
+actor User
+
+alt メールアドレス、パスワードが正しい
+  User -> SignInAPI: メールアドレス・パスワード
+  SignInAPI -> User: 登録されたユーザー
+else
+  SignInAPI -> User: エラーメッセージ
+  note left SignInAPI
+    パスワードかメールアドレスが違います。
+  end note
+end
+User -> TaskController: Taskの登録（タイトル、難易度）
+TaskController -> TaskService: Task処理の呼び出し
+
+TaskService -> DB: Taskの保存
+TaskService -> User: 成功メッセージ
+
+TaskService -> View: 一覧画面のリクエスト
+
+database DB
+
+TaskService -> DB: Task一覧の取得
+View -> User: Task一覧の表示
+
+DB -> TaskService: Task一覧
+
+
+
+TaskService -> DB: Taskの登録 
+
 @enduml

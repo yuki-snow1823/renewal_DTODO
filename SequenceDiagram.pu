@@ -1,0 +1,4 @@
+@startuml シーケンス図
+User -> SignUpAPI: メールアドレス・パスワード
+SignUpAPI -> User: 登録されたユーザー
+@enduml
